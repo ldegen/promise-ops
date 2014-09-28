@@ -2,7 +2,7 @@
   "name": "promise-ops",
   "version": "0.1.0",
   "description": "a couple of generic operators on promises",
-  "main": "lib/util-p.js",
+  "main": "lib/utils-p.js",
   "scripts": {
     "test": "jasmine-node --coffee .",
     "prepublish": "coffee --compile --output lib src"
