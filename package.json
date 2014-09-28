@@ -1,0 +1,24 @@
+{
+  "name": "promise-ops",
+  "version": "0.1.0",
+  "description": "a couple of generic operators on promises",
+  "main": "lib/util-p.js",
+  "scripts": {
+    "test": "jasmine-node --coffee .",
+    "prepublish": "coffee --compile --output lib src"
+  },
+  "author": "Lukas Degener <l.degener@tarent.de>",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "jasmine-node": "*",
+    "coffee-script": "*",
+    "promise-matchers": "*"
+  },
+  "dependencies": {
+    "promise": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ldegen/promise-ops.git"
+  }
+}
