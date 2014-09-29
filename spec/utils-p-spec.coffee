@@ -121,3 +121,39 @@ describe "Promise Utility Functions",->
       utils.eachP(Promise.from([200,Promise.from(50),0]),f).then (result)->
         expect(r).toEqual([200,50,0])
         done()
+
+    describe "The reduceP-Function",(done)->
+      it "works like Array.prototype.reduceP", (done)->
+        trace=[]
+        sum = (prev,cur) ->
+          trace.push "#{prev}+#{cur}"
+          prev+cur
+        expect(utils.reduceP [1,2,3], sum).toHaveBeenResolvedWith done, (r)->
+          expect(r).toBe(6)
+          expect(trace).toEqual [
+            "1+2",
+            "3+3"
+          ]
+      it "can take an extra start value", (done)->
+        trace=[]
+        sum = (prev,cur) ->
+          trace.push "#{prev}+#{cur}"
+          prev+cur
+        expect(utils.reduceP [1,2,3], sum,4).toHaveBeenResolvedWith done, (r)->
+          expect(r).toBe(10)
+          expect(trace).toEqual [
+            "4+1",
+            "5+2",
+            "7+3"
+          ]
+
+    it "transparently unwrapps promise elements in the array", (done)->
+      sum = (a,b)->a+b
+      expect(utils.reduceP [1,Promise.from(2),3], sum).toHaveBeenResolvedWith done, (r)->
+        expect(r).toBe(6)
+
+    it "deals with promises returned from the aggregator function", (done)->
+      sum = (a,b)-> Promise.from(a+b)
+      expect(utils.reduceP [1,2,3], sum).toHaveBeenResolvedWith done, (r)->
+        expect(r).toBe(6)
+

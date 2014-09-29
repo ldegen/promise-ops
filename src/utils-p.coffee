@@ -33,3 +33,14 @@ exports.eachP = (arr0,fun)->
             nextPrev
     , []
 
+exports.reduceP = (arr0, fun0, start0)->
+  argc = arguments.length
+  Promise.all([arr0,fun0,start0]).then ([arr,fun,start])->
+    funfun = (prev0,cur0)->
+      Promise.all([prev0,cur0]).then ([prev,cur])->
+        fun(prev,cur)
+    if argc>2
+      arr.reduce(funfun,start)
+    else
+      arr.reduce(funfun)
+
