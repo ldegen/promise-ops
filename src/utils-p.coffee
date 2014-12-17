@@ -44,3 +44,11 @@ exports.reduceP = (arr0, fun0, start0)->
     else
       arr.reduce(funfun)
 
+exports.whileP = whileP=(guard,statement,value0)->
+  Promise.from(value0).then (current)->
+    Promise.from(guard(current)).then (g)->
+      if g
+        Promise.from(statement(current)).then (next)->whileP( guard,statement,next)
+      else
+        current
+

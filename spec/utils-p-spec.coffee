@@ -156,4 +156,16 @@ describe "Promise Utility Functions",->
       sum = (a,b)-> Promise.from(a+b)
       expect(utils.reduceP [1,2,3], sum).toHaveBeenResolvedWith done, (r)->
         expect(r).toBe(6)
+    
+    describe "The whileP-Function",->
+      it "executes statement while guard evaluates to something truthy", (done)->
+        negative = createSpy("guard").andCallFake (i)->i<0
+        increment = createSpy("statement").andCallFake (i)->i+1
+
+        p = utils.whileP negative,increment,-3
+
+        expect(p).toHaveBeenResolvedWith done,(i)->
+          expect(i).toBe 0
+          expect(negative.calls.length).toBe 4
+          expect(increment.calls.length).toBe 3
 
