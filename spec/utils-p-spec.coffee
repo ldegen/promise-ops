@@ -176,5 +176,4 @@ describe "Promise Utility Functions",->
 
       it "polls condition, resolving if it evaluates to true", (done)->
         p = utils.waitForP condition, 200
-        p.catch (e)->console.log("fuck",e.stack)
         expect(p).toHaveBeenResolved done
