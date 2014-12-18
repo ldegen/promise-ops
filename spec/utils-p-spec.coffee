@@ -171,7 +171,7 @@ describe "Promise Utility Functions",->
 
     describe "The waitForP-Function",->
       start = undefined
-      condition = ()-> Date.now() - start > 120
+      condition = ()-> Promise.from(Date.now() - start > 120)
       beforeEach ()-> start=Date.now()
 
       it "polls condition, resolving if it evaluates to true", (done)->

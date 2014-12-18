@@ -62,7 +62,8 @@ exports.waitForP = waitForP = (condition,timeout,interval,value)->
   start = Date.now()
   guard = (v)->
     if Date.now() - start > timeout
-      throw new Error "timeout (#{timeout}ms) exceeded"
+      msg = "waitForP: timeout (#{timeout}ms) exceeded"
+      throw new Error msg
     else
-      condition(v)
+      Promise.from(condition(v)).then (c)->!c
   whileP guard, delay_(interval||20),value
