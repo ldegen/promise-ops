@@ -51,4 +51,18 @@ exports.whileP = whileP=(guard,statement,value0)->
         Promise.from(statement(current)).then (next)->whileP( guard,statement,next)
       else
         current
+exports.delayP = delayP = (millis, value)->
+  new Promise (resolve)->
+    setTimeout (()->resolve(value)), millis
 
+delay_ = (millis)->
+  (value)->delayP(millis,value)
+
+exports.waitForP = waitForP = (condition,timeout,interval,value)->
+  start = Date.now()
+  guard = (v)->
+    if Date.now() - start > timeout
+      throw new Error "timeout (#{timeout}ms) exceeded"
+    else
+      condition(v)
+  whileP guard, delay_(interval||20),value

@@ -169,3 +169,12 @@ describe "Promise Utility Functions",->
           expect(negative.calls.length).toBe 4
           expect(increment.calls.length).toBe 3
 
+    describe "The waitForP-Function",->
+      start = undefined
+      condition = ()-> Date.now() - start > 120
+      beforeEach ()-> start=Date.now()
+
+      it "polls condition, resolving if it evaluates to true", (done)->
+        p = utils.waitForP condition, 200
+        p.catch (e)->console.log("fuck",e.stack)
+        expect(p).toHaveBeenResolved done
